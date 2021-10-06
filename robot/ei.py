@@ -16,14 +16,11 @@ def eval_grade_ei(board: dict, position: dict) -> float:
     * piece: the last piece played
     * rows_removed: how many rows were removed in the last move
     :param board: a Matrix data structure
-
     :param position: position of the solid point of the piece
-
-      Returns:
+    :return:
         A number indicating how "good" a board is, the higher the number, the
        better the board.
     """
-    # trim_board(board)
     number_of_columns = get_number_of_columns(board)
     number_of_rows = get_number_of_rows(board)
     score = 0
@@ -52,7 +49,12 @@ def trim_board(board: dict):
 
 
 def get_landing_height(position: dict, rows: int) -> int:
-    """当前方块落下去之后，方块中点距离底部的高度"""
+    """
+    当前方块落下去之后，方块中点距离底部的高度
+    :param: position, the landing position of the piece
+    :param: rows, the over all row count of the board
+    :return: landing height of the piece.
+    """
     count = 0
     y_sum = 0
     for cor in position:
@@ -62,15 +64,29 @@ def get_landing_height(position: dict, rows: int) -> int:
 
 
 def get_number_of_rows(board: list) -> int:
+    """
+    the row count of the board
+    :param board: the context data
+    :return: row count of the board
+    """
     return len(board)
 
 
 def get_number_of_columns(board: list) -> int:
+    """
+    count the column of the board
+    :param board: the context data
+    :return: column count
+    """
     return len(board[0])
 
 
 def get_rows_removed(board: list) -> int:
-    """after shape drop down，count the line fulling of solid points"""
+    """
+    after shape drop down，count the line fulling of solid points
+    :param board: the context data
+    :return the count of the rows removed
+    """
     solid_rows = 0
     for index, row in enumerate(board):
         if row.count(0) == 0:
@@ -85,6 +101,9 @@ def get_row_transitions(board: list, num_columns: int) -> int:
     The total number of row transitions.
     A row transition occurs when an empty cell is adjacent to a filled cell
     on the same row and vice versa.
+    :param board, the context data
+    :param num_columns, column count of the board
+    :return the point transition in row direction
     """
     transitions = 0
     last_bit = 1
@@ -110,6 +129,9 @@ def get_column_transitions(board: list, num_columns: int) -> int:
     The total number of column transitions.
     A column transition occurs when an empty cell is adjacent to a filled cell
     on the same row and vice versa.
+    :param board, the context data
+    :param num_columns, column count of the board
+    :return the point transition count in column direction
     """
     board_t = array(board).T
     transitions = 0
@@ -132,6 +154,9 @@ def get_column_transitions(board: list, num_columns: int) -> int:
 def get_hole_number(board: list, num_columns: int) -> int:
     """
     get hole count number
+    :param board the context data list
+    :param num_columns
+    :return hole number
     """
     from robot.stupid import eval_holes
     board_t = array(board).T
@@ -140,15 +165,13 @@ def get_hole_number(board: list, num_columns: int) -> int:
 
 def get_well_sums(board: list, num_columns: int) -> int:
     """
-     A well is a sequence of empty cells above the top piece in a column such
-     that the top cell in the sequence is surrounded (left and right) by occupied
-     cells or a boundary of the board.
+    A well is a sequence of empty cells above the top piece in a column such
+    that the top cell in the sequence is surrounded (left and right) by occupied
+    cells or a boundary of the board.
   
-     Args:
-        board - The game board (an array of integers)
-       num_columns - Number of columns in the board
-    
-     Return:
+    :param board - The game board (an array of integers)
+    :param num_columns - Number of columns in the board
+    :return
         The well sums. For a well of length n, we define the well sums as
         1 + 2 + 3 + ... + n. This gives more significance to deeper holes.
     """
